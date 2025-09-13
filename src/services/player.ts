@@ -1,7 +1,7 @@
 import {VoiceChannel, Snowflake} from 'discord.js';
 import {Readable} from 'stream';
 import hasha from 'hasha';
-import ytdl, {videoFormat} from '@distube/ytdl-core';
+import ytdl, {videoFormat} from './yt-dlp-core.js';
 import {WriteStream} from 'fs-capacitor';
 import ffmpeg from 'fluent-ffmpeg';
 import shuffle from 'array-shuffle';
@@ -519,11 +519,11 @@ export default class {
 
       const formats = info.formats as YTDLVideoFormat[];
 
-      const filter = (format: ytdl.videoFormat): boolean => format.codecs === 'opus' && format.container === 'webm' && format.audioSampleRate !== undefined && parseInt(format.audioSampleRate, 10) === 48000;
+      const filter = (format: videoFormat): boolean => format.codecs === 'opus' && format.container === 'webm' && format.audioSampleRate !== undefined && parseInt(format.audioSampleRate, 10) === 48000;
 
       format = formats.find(filter);
 
-      const nextBestFormat = (formats: ytdl.videoFormat[]): ytdl.videoFormat | undefined => {
+      const nextBestFormat = (formats: videoFormat[]): videoFormat | undefined => {
         if (formats.length < 1) {
           return undefined;
         }
